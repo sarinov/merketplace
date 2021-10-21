@@ -2204,6 +2204,60 @@ window.update_cells = function (id) {
   };
 };
 
+window.create = function (id) {
+  var name_create = document.getElementById('name');
+  var description_create = document.getElementById('description');
+  var img_create = document.getElementById('img');
+  var price_create = document.getElementById('price');
+  var count_create = document.getElementById('count');
+  var like_create = document.getElementById('like');
+  var dislike_create = document.getElementById('dislike');
+  var category_create = document.getElementById('category');
+  var data = {
+    name: name_create.value,
+    description: description_create.value,
+    img: img_create.value,
+    price: price_create.value,
+    count: count_create.value,
+    like: like_create.value,
+    dislike: dislike_create.value,
+    category: category_create.value
+  };
+  $.ajax({
+    url: "http://localhost:8000/api/product/",
+    type: "POST",
+    dataType: 'json',
+    processData: false,
+    contentType: 'application/json',
+    CrossDomain: true,
+    async: false,
+    data: JSON.stringify(data),
+    success: function success(data) {
+      console.log(data.name); // $.each(data, function( key, value ) {
+      //     $("#AllProducts").html(value);
+      //   console.log( 'Свойство: ' +key + '; Значение: ' + value );
+      // });
+
+      $("#productAddCorrect").append("<p>Cоздано</p>");
+      $("#allProducts").append("\n     <div class=\"product p-5 border rounded-3\">\n        <div class=\"d-flex align-items-center\">\n  <div class=\"flex-shrink-0\">\n    <img src=\"https://image.shutterstock.com/image-illustration/img-file-document-icon-trendy-260nw-1407027353.jpg\" width=\"150px\" alt=\"...\">\n  </div>\n  <div class=\"flex-grow-1 ms-3\">\n    <h3 class=\"title\">".concat(data.name, "</h3>\n    <p class=\"description lead\"> ").concat(data.description, "</p>\n    <p class=\"price\">price: <b>").concat(data.price, "</b></p>\n    <p class=\"count\">counte: <b>").concat(data.count, "</b></p> \n\n    <div class=\"d-flex align-items-center justify-content-between\">\n            <div class=\"btn-group\" role=\"group\">\n  <button type=\"button\" class=\"btn border\">Like: ").concat(data.like, "</button>\n  <button type=\"button\" class=\"btn border\">Dislike:").concat(data.dislike, "</button>\n</div>\n<div>\n    <a href=\"single/").concat(data.id, "\">Open =></a>\n\n    \n</div>\n    </div>\n  </div>\n</div>\n     </div>")); // let count_cell = document.getElementById('inp_count_'+data.id);
+      //     let price_cell = document.getElementById('inp_price_'+data.id);
+      //     let name_cell = document.getElementById('inp_name_'+data.id);
+      //     let like_cell = document.getElementById('inp_like_'+data.id);
+      //     let button = document.getElementById('update_cells_'+id);
+      //             count_cell.parentNode.innerHTML=data.count
+      //             price_cell.parentNode.innerHTML=data.price
+      //             name_cell.parentNode.innerHTML=data.name
+      //             like_cell.parentNode.innerHTML=data.like
+      //             button.onclick = () => update_cells(id);
+    },
+    error: function error(xhr, ajaxOptions, thrownError) {
+      //Add these parameters to display the required response
+      alert(xhr.status);
+      alert(xhr.responseText);
+    }
+  });
+};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -30555,7 +30609,7 @@ process.umask = function() { return 0; };
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"axios@^0.21","name":"axios","escapedName":"axios","rawSpec":"^0.21","saveSpec":null,"fetchSpec":"^0.21"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_shasum":"c67b90dc0568e5c1cf2b0b858c43ba28e2eda575","_spec":"axios@^0.21","_where":"/Users/zhanerke/Documents/Eska projects/merketplace","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundleDependencies":false,"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"deprecated":false,"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\zackw\\\\OneDrive\\\\Рабочий стол\\\\merketplace"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\zackw\\\\OneDrive\\\\Рабочий стол\\\\merketplace","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 

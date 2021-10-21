@@ -14,6 +14,14 @@ class ProductController extends Controller
         return  view('welcome', ['products' => Product::get()]);        
         
     }
+        public function single($id)
+    {
+         $product = Product::find($id);
+
+        
+        return  view('single', ['products' => $product]);        
+        
+    }
 
     public function update(Request $request, $id)
     {
