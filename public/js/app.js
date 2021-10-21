@@ -2060,6 +2060,20 @@ module.exports = {
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.$ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -2233,22 +2247,9 @@ window.create = function (id) {
     async: false,
     data: JSON.stringify(data),
     success: function success(data) {
-      console.log(data.name); // $.each(data, function( key, value ) {
-      //     $("#AllProducts").html(value);
-      //   console.log( 'Свойство: ' +key + '; Значение: ' + value );
-      // });
-
+      console.log(data.name);
       $("#productAddCorrect").append("<p>Cоздано</p>");
-      $("#allProducts").append("\n     <div class=\"product p-5 border rounded-3\">\n        <div class=\"d-flex align-items-center\">\n  <div class=\"flex-shrink-0\">\n    <img src=\"https://image.shutterstock.com/image-illustration/img-file-document-icon-trendy-260nw-1407027353.jpg\" width=\"150px\" alt=\"...\">\n  </div>\n  <div class=\"flex-grow-1 ms-3\">\n    <h3 class=\"title\">".concat(data.name, "</h3>\n    <p class=\"description lead\"> ").concat(data.description, "</p>\n    <p class=\"price\">price: <b>").concat(data.price, "</b></p>\n    <p class=\"count\">counte: <b>").concat(data.count, "</b></p> \n\n    <div class=\"d-flex align-items-center justify-content-between\">\n            <div class=\"btn-group\" role=\"group\">\n  <button type=\"button\" class=\"btn border\">Like: ").concat(data.like, "</button>\n  <button type=\"button\" class=\"btn border\">Dislike:").concat(data.dislike, "</button>\n</div>\n<div>\n    <a href=\"single/").concat(data.id, "\">Open =></a>\n\n    \n</div>\n    </div>\n  </div>\n</div>\n     </div>")); // let count_cell = document.getElementById('inp_count_'+data.id);
-      //     let price_cell = document.getElementById('inp_price_'+data.id);
-      //     let name_cell = document.getElementById('inp_name_'+data.id);
-      //     let like_cell = document.getElementById('inp_like_'+data.id);
-      //     let button = document.getElementById('update_cells_'+id);
-      //             count_cell.parentNode.innerHTML=data.count
-      //             price_cell.parentNode.innerHTML=data.price
-      //             name_cell.parentNode.innerHTML=data.name
-      //             like_cell.parentNode.innerHTML=data.like
-      //             button.onclick = () => update_cells(id);
+      $("#allProducts").append(card_render(data));
     },
     error: function error(xhr, ajaxOptions, thrownError) {
       //Add these parameters to display the required response
@@ -2257,6 +2258,66 @@ window.create = function (id) {
     }
   });
 };
+
+var data = {
+  q: '',
+  col: '',
+  order: ''
+};
+
+window.filtration = function (event, type) {
+  console.log(event.target.value);
+  if (type == 'search') data.q = event.target.value;else if (type == 'order') {
+    var _event$target$value$s = event.target.value.split('-'),
+        _event$target$value$s2 = _slicedToArray(_event$target$value$s, 2),
+        col = _event$target$value$s2[0],
+        order = _event$target$value$s2[1];
+
+    data.col = col;
+    data.order = order;
+  }
+  console.log(data);
+  fetch_data(data);
+};
+
+function fetch_data(data) {
+  $.ajax({
+    url: "http://localhost:8000/api/filtration?q=".concat(data.q, "&col=").concat(data.col, "&order=").concat(data.order),
+    type: "GET",
+    dataType: 'json',
+    processData: false,
+    contentType: 'application/json',
+    CrossDomain: true,
+    async: false,
+    success: function success(data) {
+      console.log(data);
+      $("#allProducts").empty();
+
+      var _iterator = _createForOfIteratorHelper(data),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var i = _step.value;
+          $("#allProducts").append(card_render(i));
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    },
+    error: function error(xhr, ajaxOptions, thrownError) {
+      //Add these parameters to display the required response
+      alert(xhr.status);
+      alert(xhr.responseText);
+    }
+  });
+}
+
+function card_render(data) {
+  return "\n     <div class=\"product p-5 border rounded-3\">\n        <div class=\"d-flex align-items-center\">\n        <div class=\"flex-shrink-0\">\n            <img src=\"https://image.shutterstock.com/image-illustration/img-file-document-icon-trendy-260nw-1407027353.jpg\" width=\"150px\" alt=\"...\">\n        </div>\n        <div class=\"flex-grow-1 ms-3\">\n            <h3 class=\"title\">".concat(data.name, "</h3>\n            <p class=\"description lead\"> ").concat(data.description, "</p>\n            <p class=\"price\">price: <b>").concat(data.price, "</b></p>\n            <p class=\"count\">counte: <b>").concat(data.count, "</b></p> \n\n            <div class=\"d-flex align-items-center justify-content-between\">\n                    <div class=\"btn-group\" role=\"group\">\n        <button type=\"button\" class=\"btn border\">Like: ").concat(data.like, "</button>\n        <button type=\"button\" class=\"btn border\">Dislike:").concat(data.dislike, "</button>\n        </div>\n        <div>\n        <a href=\"single/").concat(data.id, "\">Open =></a>\n        </div>\n        </div>\n        </div>\n        </div>\n     </div>");
+}
 
 /***/ }),
 
@@ -30609,7 +30670,7 @@ process.umask = function() { return 0; };
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\zackw\\\\OneDrive\\\\Рабочий стол\\\\merketplace"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\zackw\\\\OneDrive\\\\Рабочий стол\\\\merketplace","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"axios@^0.21","name":"axios","escapedName":"axios","rawSpec":"^0.21","saveSpec":null,"fetchSpec":"^0.21"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_shasum":"c67b90dc0568e5c1cf2b0b858c43ba28e2eda575","_spec":"axios@^0.21","_where":"/Users/zhanerke/Documents/Eska projects/merketplace","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundleDependencies":false,"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"deprecated":false,"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 

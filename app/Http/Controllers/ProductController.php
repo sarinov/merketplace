@@ -10,8 +10,19 @@ class ProductController extends Controller
 
     public function index()
     {
-        
-        return  view('welcome', ['products' => Product::get()]);        
+        $category_tamplate = [
+                'Smatphones' => 0,
+                'Laptops' => 0,
+                'Accessories' => 0,
+                'Camera' => 0,
+        ];
+        $exist_categories = Product::selectRaw('category, count(category)')->groupBy('category')->get();
+
+        foreach($exist_categories as $ex_cat){
+            $category_tamplate[$ex_cat->category] = $ex_cat->count;
+        }
+
+        return  view('welcome', ['products' => Product::get(), 'categories' => $category_tamplate]);        
         
     }
         public function single($id)
@@ -70,10 +81,26 @@ class ProductController extends Controller
             'category' => 'required'
         ]);
         // dd($validated);
-        Product::create($validated);
+        $product = Product::create($validated);
         
-        return $validated;          
+        return $product;          
         
     }
+
+    public function filtration(Request $request)
+    {
+        $q = $request->query('q');
+        $order_column = $request->query('col') ? $request->query('col') : 'created_at';
+        $order = $request->query('order') ? $request->query('order') : 'asc';
+        // dd($order_column, $order);
+
+        $product = Product::where('name', 'like', '%'.$q.'%')->orderBy($order_column, $order)
+        ->get();
+        // dd($product);
+
+        return $product;          
+        
+    }
+
 
 }

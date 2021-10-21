@@ -173,60 +173,8 @@ window.create = function(id){
         data: JSON.stringify(data),
         success: function (data) {
             console.log(data.name);
-
-
-// $.each(data, function( key, value ) {
-//     $("#AllProducts").html(value);
-
-
-//   console.log( 'Свойство: ' +key + '; Значение: ' + value );
-
-// });
-
-$( "#productAddCorrect" ).append( "<p>Cоздано</p>" );
-
-
-$( "#allProducts" ).append( `
-     <div class="product p-5 border rounded-3">
-        <div class="d-flex align-items-center">
-  <div class="flex-shrink-0">
-    <img src="https://image.shutterstock.com/image-illustration/img-file-document-icon-trendy-260nw-1407027353.jpg" width="150px" alt="...">
-  </div>
-  <div class="flex-grow-1 ms-3">
-    <h3 class="title">${data.name}</h3>
-    <p class="description lead"> ${data.description}</p>
-    <p class="price">price: <b>${data.price}</b></p>
-    <p class="count">counte: <b>${data.count}</b></p> 
-
-    <div class="d-flex align-items-center justify-content-between">
-            <div class="btn-group" role="group">
-  <button type="button" class="btn border">Like: ${data.like}</button>
-  <button type="button" class="btn border">Dislike:${data.dislike}</button>
-</div>
-<div>
-    <a href="single/${data.id}">Open =></a>
-
-    
-</div>
-    </div>
-  </div>
-</div>
-     </div>` );
-
-
-
-// let count_cell = document.getElementById('inp_count_'+data.id);
-//     let price_cell = document.getElementById('inp_price_'+data.id);
-//     let name_cell = document.getElementById('inp_name_'+data.id);
-//     let like_cell = document.getElementById('inp_like_'+data.id);
-//     let button = document.getElementById('update_cells_'+id);
-
-
-//             count_cell.parentNode.innerHTML=data.count
-//             price_cell.parentNode.innerHTML=data.price
-//             name_cell.parentNode.innerHTML=data.name
-//             like_cell.parentNode.innerHTML=data.like
-//             button.onclick = () => update_cells(id);
+            $( "#productAddCorrect" ).append( "<p>Cоздано</p>" );
+            $( "#allProducts" ).append(card_render(data));
         },
         error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
             alert(xhr.status);
@@ -235,3 +183,70 @@ $( "#allProducts" ).append( `
     });
 }
 
+
+let data = {
+    q : '',
+    col : '',
+    order : '',
+}
+
+window.filtration = function (event, type) {
+    console.log(event.target.value)  
+    if(type == 'search') data.q = event.target.value
+    else if(type == 'order') {
+        let [col, order] = event.target.value.split('-')
+        data.col = col
+        data.order = order
+    }
+    console.log(data);
+    fetch_data(data);
+}
+
+function fetch_data(data){
+    $.ajax({
+        url: `http://localhost:8000/api/filtration?q=${data.q}&col=${data.col}&order=${data.order}`,
+        type: "GET",
+        dataType: 'json',
+        processData: false,
+        contentType: 'application/json',
+        CrossDomain:true,
+        async: false,
+        success: function (data) {
+            console.log(data);
+            $( "#allProducts" ).empty();
+            for(let i of data){
+                $( "#allProducts" ).append(card_render(i));
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
+function card_render(data){
+    return `
+     <div class="product p-5 border rounded-3">
+        <div class="d-flex align-items-center">
+        <div class="flex-shrink-0">
+            <img src="https://image.shutterstock.com/image-illustration/img-file-document-icon-trendy-260nw-1407027353.jpg" width="150px" alt="...">
+        </div>
+        <div class="flex-grow-1 ms-3">
+            <h3 class="title">${data.name}</h3>
+            <p class="description lead"> ${data.description}</p>
+            <p class="price">price: <b>${data.price}</b></p>
+            <p class="count">counte: <b>${data.count}</b></p> 
+
+            <div class="d-flex align-items-center justify-content-between">
+                    <div class="btn-group" role="group">
+        <button type="button" class="btn border">Like: ${data.like}</button>
+        <button type="button" class="btn border">Dislike:${data.dislike}</button>
+        </div>
+        <div>
+        <a href="single/${data.id}">Open =></a>
+        </div>
+        </div>
+        </div>
+        </div>
+     </div>` 
+}

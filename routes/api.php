@@ -24,5 +24,6 @@ Route::put('/product/{id}', 'App\Http\Controllers\ProductController@update');
 Route::put('/product/incrementCount/{id}', 'App\Http\Controllers\ProductController@incrementCount');
 Route::put('/product/incrementLike/{id}', 'App\Http\Controllers\ProductController@incrementLike');
 Route::delete('/product/{id}', 'App\Http\Controllers\ProductController@delete');
+Route::get('/filtration', 'App\Http\Controllers\ProductController@filtration');
 
 
