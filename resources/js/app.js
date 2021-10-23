@@ -49,7 +49,7 @@ window.like = function(id){
 window.dislike = function(id){
     
     $.ajax({
-        url: "http://localhost:8000/api/product/incrementCount/"+id,
+        url: "http://localhost:8000/api/product/decrementDisLike/"+id,
         type: "PUT",
         dataType: 'json',
         processData: false,
@@ -58,6 +58,8 @@ window.dislike = function(id){
         async: false,
         success: function (data) {
             console.log(data);
+            let dislike_cell = document.getElementById('dislike_'+id);
+            dislike_cell.innerHTML = data.dislike;
         },
         error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
             alert(xhr.status);
@@ -78,6 +80,7 @@ window.delete_product = function(id){
         success: function (data) {
             console.log(data);
             let count_cell = document.getElementById('count_'+id).parentElement.remove();
+            window.location = '/';
   
         },
         error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
@@ -91,13 +94,15 @@ window.update = function(id){
     let price_cell = document.getElementById('inp_price_'+id);
     let name_cell = document.getElementById('inp_name_'+id);
     let like_cell = document.getElementById('inp_like_'+id);
+    let dislike_cell = document.getElementById('inp_dislike_'+id);
     let button = document.getElementById('update_cells_'+id);
     
     let data = {
         name: name_cell.value,
         price: price_cell.value,
         count: count_cell.value,
-        like: like_cell.value
+        like: like_cell.value,
+        dislike: dislike_cell.value
     }
     $.ajax({
         url: "http://localhost:8000/api/product/"+id,
@@ -114,6 +119,7 @@ window.update = function(id){
             price_cell.parentNode.innerHTML=data.price
             name_cell.parentNode.innerHTML=data.name
             like_cell.parentNode.innerHTML=data.like
+            dislike_cell.parentNode.innerHTML=data.dislike
             button.onclick = () => update_cells(id);
         },
         error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
@@ -128,12 +134,14 @@ window.update_cells = function(id){
     let price_cell = document.getElementById('price_'+id);
     let name_cell = document.getElementById('name_'+id);
     let like_cell = document.getElementById('like_'+id);
+    let dislike_cell = document.getElementById('dislike_'+id);
     let button = document.getElementById('update_cells_'+id);
 
     count_cell.innerHTML=`<input id="inp_count_${id}" value="${count_cell.innerHTML}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">`
     price_cell.innerHTML=`<input id="inp_price_${id}" value="${price_cell.innerHTML}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">`
     name_cell.innerHTML=`<input id="inp_name_${id}" value="${name_cell.innerHTML}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">`
     like_cell.innerHTML=`<input id="inp_like_${id}" value="${like_cell.innerHTML}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">`
+    dislike_cell.innerHTML=`<input id="inp_dislike_${id}" value="${dislike_cell.innerHTML}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">`
     button.onclick = () => update(id);
 }
 

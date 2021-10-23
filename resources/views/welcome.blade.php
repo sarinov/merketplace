@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-lg-3 col border-end ">
 
-     <div class="mb-5">
+     <div class="mb-5 mt-4">
     <select onchange="filtration(event, 'order')" class="form-select" >
     <option value="created_at-asc">New</option>
     <option value="created_at-desc">Old</option>
@@ -62,8 +62,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
             <div class="btn-group" role="group">
-  <button type="button" class="btn border">Like: {{$product->like}}</button>
-  <button type="button" class="btn border">Dislike: {{$product->dislike}}</button>
+  <button type="button" class="btn border"  >Like: {{$product->like}}</button>
+  <button type="button" class="btn border" >Dislike: {{$product->dislike}}</button>
 </div>
 <div>
     <a href="single/{{$product->id}}">Open =></a>
@@ -90,29 +90,27 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title " id="exampleModalLabel">Add product</h5>
+        
       </div>
       <div class="modal-body">
         <div id="productAddCorrect">
             
         </div>
-       <input type="text" class="form-control" id="name">
-      <input type="text" class="form-control" id="description">
-      <input type="text" class="form-control" id="img">
-      <input type="text" class="form-control" id="price">
-      <input type="text" class="form-control" id="count">
-      <input type="text" class="form-control" id="like">
-      <input type="text" class="form-control" id="dislike">
-      <input type="text" class="form-control" id="category">
+       <input type="text" class="form-control" id="name" placeholder="Title"> 
+      <input type="text" class="form-control mt-2" id="description" placeholder="Description">
+      <input type="text" class="form-control mt-2" id="img" placeholder="Img">
+      <input type="text" class="form-control mt-2" id="price" placeholder="Price">
+      <input type="text" class="form-control mt-2" id="count" placeholder="Count">
+      <input type="text" class="form-control mt-2" id="like" placeholder="Like">
+      <input type="text" class="form-control mt-2" id="dislike" placeholder="Dislike">
+      <input type="text" class="form-control mt-2" id="category" placeholder="Category">
 
 
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="create()">Push</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="create()">push</button>
       </div>
     </div>
   </div>

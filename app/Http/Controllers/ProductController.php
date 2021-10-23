@@ -62,12 +62,22 @@ class ProductController extends Controller
         return   $product;        
         
     }
+    public function decrementDisLike($id)
+    {
+        $product = Product::find($id);
+
+        $product->decrement('dislike');
+
+        return   $product;        
+        
+    }
     public function delete($id)
     {
         $product = Product::find($id);
 
         $product->delete();
-        return   $product;        
+        return   $product;     
+        
     
     }
 
@@ -78,7 +88,10 @@ class ProductController extends Controller
             'price' => 'numeric',
             'img' => 'required',
             'description' => 'nullable',
-            'category' => 'required'
+            'category' => 'required',
+            'count' => 'numeric',
+            'like' => 'numeric',
+            'dislike' => 'numeric',
         ]);
         // dd($validated);
         $product = Product::create($validated);
