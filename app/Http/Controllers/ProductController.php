@@ -33,6 +33,11 @@ class ProductController extends Controller
         return  view('single', ['products' => $product]);        
         
     }
+    public function signIn()
+    {
+        return  view('signin');        
+        
+    }
 
     public function update(Request $request, $id)
     {

@@ -25,8 +25,7 @@
     </div>
     <div class="btn-group" >
   <button type="button" class="btn "><a href="/">HOME</a></button>
-  <button type="button" class="btn "><a href="/single/">PRODUCT</a></button>
-  <button type="button" class="btn btn-outline-primary rounded-3">Hello, Sam</button>
+  <button type="button" class="btn "><a href="/signIn/">SIGN IN</a></button>
 
 </div>
     
