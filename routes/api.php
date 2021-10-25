@@ -14,17 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/login', 'App\Http\Controllers\UserController@login');
+Route::post('/registration', 'App\Http\Controllers\UserController@registration');
 
 
-Route::post('/product', 'App\Http\Controllers\ProductController@create');
-Route::put('/product/{id}', 'App\Http\Controllers\ProductController@update');
-Route::put('/product/incrementCount/{id}', 'App\Http\Controllers\ProductController@incrementCount');
-Route::put('/product/incrementLike/{id}', 'App\Http\Controllers\ProductController@incrementLike');
-Route::put('/product/decrementDisLike/{id}', 'App\Http\Controllers\ProductController@decrementDisLike');
-Route::delete('/product/{id}', 'App\Http\Controllers\ProductController@delete');
-Route::get('/filtration', 'App\Http\Controllers\ProductController@filtration');
+Route::middleware('auth_token')->post('/product', 'App\Http\Controllers\ProductController@create');
+Route::middleware('auth_token')->put('/product/{id}', 'App\Http\Controllers\ProductController@update');
+Route::middleware('auth_token')->put('/product/incrementCount/{id}', 'App\Http\Controllers\ProductController@incrementCount');
+Route::middleware('auth_token')->put('/product/incrementLike/{id}', 'App\Http\Controllers\ProductController@incrementLike');
+Route::middleware('auth_token')->put('/product/decrementDisLike/{id}', 'App\Http\Controllers\ProductController@decrementDisLike');
+Route::middleware('auth_token')->delete('/product/{id}', 'App\Http\Controllers\ProductController@delete');
+Route::middleware('auth_token')->get('/filtration', 'App\Http\Controllers\ProductController@filtration');
 
 

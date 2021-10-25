@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-
+use App\Models\User;
 class Authenticate extends Middleware
 {
     /**
@@ -12,10 +12,10 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
-    protected function redirectTo($request)
+    protected function redirectTo($request, Closure $next)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
-        }
+        if(User::where('api_token', "=", $request->token)->first()){
+            return $next($request);
+        };
     }
 }
