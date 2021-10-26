@@ -16,7 +16,9 @@ class EnsureTokenIsValid
      */
     public function handle(Request $request, Closure $next)
     {
-        if(User::where('api_token', "=", $request->token)->first()){
+        $user = User::where('api_token', "=", $request->token)->first();
+        if($user){
+            $request->user = $user;
             return $next($request);
         };
         return response('You are not authorized', 403);

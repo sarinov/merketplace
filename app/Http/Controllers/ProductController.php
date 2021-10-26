@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     //
@@ -21,8 +22,14 @@ class ProductController extends Controller
         foreach($exist_categories as $ex_cat){
             $category_tamplate[$ex_cat->category] = $ex_cat->count;
         }
+        $path = storage_path('0gbmLRjbc3y7m8StFj8vPg0adxmlbE7ffVWsEOpC.jpg');
+        $products = Product::get();
+        // foreach ($products as $prod) {
+        //     $url = storage_path($prod->img);
+        //     $prod->img= $url;
+        // }
 
-        return  view('welcome', ['products' => Product::get(), 'categories' => $category_tamplate]);        
+        return  view('welcome', ['products' => $products, 'categories' => $category_tamplate]);        
         
     }
         public function single($id)
@@ -91,7 +98,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'price' => 'numeric',
-            'img' => 'required',
+            'img' => 'file',
             'description' => 'nullable',
             'category' => 'required',
             'count' => 'numeric',
@@ -99,6 +106,8 @@ class ProductController extends Controller
             'dislike' => 'numeric',
         ]);
         // dd($validated);
+        $path = $request->file('img')->store('public/prodcuts_images');
+        $validated['img'] = $path;
         $product = Product::create($validated);
         
         return $product;          

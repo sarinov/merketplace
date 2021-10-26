@@ -56,7 +56,7 @@
                     <div class="d-flex align-items-center">
 
                         <div class="flex-shrink-0">
-                            <img src="https://image.shutterstock.com/image-illustration/img-file-document-icon-trendy-260nw-1407027353.jpg"
+                            <img src="{{url('storage/'.  substr($product->img, 7, 999) )}}"
                                 width="150px" alt="...">
                         </div>
 
@@ -113,7 +113,7 @@
 
                     <input type="text" class="form-control" id="name" placeholder="Title">
                     <input type="text" class="form-control mt-2" id="description" placeholder="Description">
-                    <input type="text" class="form-control mt-2" id="img" placeholder="Img">
+                    <input type="file" class="form-control mt-2" id="img" placeholder="Img">
                     <input type="text" class="form-control mt-2" id="price" placeholder="Price">
                     <input type="text" class="form-control mt-2" id="count" placeholder="Count">
                     <input type="text" class="form-control mt-2" id="like" placeholder="Like">

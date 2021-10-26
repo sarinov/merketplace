@@ -157,28 +157,28 @@ window.create = function(id){
     let dislike_create = document.getElementById('dislike');
     let category_create = document.getElementById('category');
     
-
+    let data = new FormData();
+    data.append('name', name_create.value);
+    data.append('description', description_create.value);
+    data.append('img', img_create.files[0]);
+    data.append('price', price_create.value);
+    data.append('count', count_create.value);
+    data.append('like', like_create.value);
+    data.append('dislike', dislike_create.value);
+    data.append('category', category_create.value);
+    data.append('token', '6807bd03d8fb9e067c0316fd72b2218c3bca79d5f0491cf1ef344a9bd75e8eb5');
     
 
-    let data = {
-        name: name_create.value,
-        description: description_create.value,
-        img: img_create.value,
-        price: price_create.value,
-        count: count_create.value,
-        like: like_create.value,
-        dislike: dislike_create.value,
-        category: category_create.value
-    }
     $.ajax({
         url: "http://localhost:8000/api/product/",
         type: "POST",
-        dataType: 'json',
         processData: false,
-        contentType: 'application/json',
-        CrossDomain:true,
+        contentType: false,
+        cache: false,
+        timeout: 800000,
+        enctype: 'multipart/form-data',
         async: false,
-        data: JSON.stringify(data),
+        data,
         success: function (data) {
             console.log(data.name);
             $( "#productAddCorrect" ).append( "<p>Cоздано</p>" );
