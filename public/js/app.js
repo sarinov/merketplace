@@ -2077,10 +2077,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.$ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+var url_token = localStorage.getItem('api_token');
 
 window.increment = function (id) {
+  //http://localhost:8000/api/product/incrementCount/"+id+"?token=fa62dd02cc249c934cedb97a43141490b1ecc3b292a3314555f06f74dce5f754"
   $.ajax({
-    url: "http://localhost:8000/api/product/incrementCount/" + id,
+    url: "http://localhost:8000/api/product/incrementCount/" + id + "?token=" + url_token,
     type: "PUT",
     dataType: 'json',
     processData: false,
@@ -2101,7 +2103,7 @@ window.increment = function (id) {
 
 window.like = function (id) {
   $.ajax({
-    url: "http://localhost:8000/api/product/incrementLike/" + id,
+    url: "http://localhost:8000/api/product/incrementLike/" + id + "?token=" + url_token,
     type: "PUT",
     dataType: 'json',
     processData: false,
@@ -2123,7 +2125,7 @@ window.like = function (id) {
 
 window.dislike = function (id) {
   $.ajax({
-    url: "http://localhost:8000/api/product/decrementDisLike/" + id,
+    url: "http://localhost:8000/api/product/decrementDisLike/" + id + "?token=" + url_token,
     type: "PUT",
     dataType: 'json',
     processData: false,
@@ -2145,7 +2147,7 @@ window.dislike = function (id) {
 
 window.delete_product = function (id) {
   $.ajax({
-    url: "http://localhost:8000/api/product/" + id,
+    url: "http://localhost:8000/api/product/" + id + "?token=" + url_token,
     type: "DELETE",
     dataType: 'json',
     processData: false,
@@ -2180,7 +2182,7 @@ window.update = function (id) {
     dislike: dislike_cell.value
   };
   $.ajax({
-    url: "http://localhost:8000/api/product/" + id,
+    url: "http://localhost:8000/api/product/" + id + "?token=" + url_token,
     type: "PUT",
     dataType: 'json',
     processData: false,
@@ -2268,6 +2270,65 @@ window.create = function (id) {
   });
 };
 
+window.registration = function (id) {
+  var reg_name = document.getElementById('reg_name');
+  var reg_email = document.getElementById('reg_email');
+  var reg_password = document.getElementById('reg_password');
+  var data = new FormData();
+  data.append('name', reg_name.value);
+  data.append('email', reg_email.value);
+  data.append('password', reg_password.value);
+  $.ajax({
+    url: "http://localhost:8000/api/registration/",
+    type: "POST",
+    processData: false,
+    contentType: false,
+    cache: false,
+    timeout: 800000,
+    enctype: 'multipart/form-data',
+    async: false,
+    data: data,
+    success: function success(data) {
+      console.log(data.name);
+      localStorage.setItem('api_token', data.api_token);
+      window.location.href = '/';
+    },
+    error: function error(xhr, ajaxOptions, thrownError) {
+      //Add these parameters to display the required response
+      alert(xhr.status);
+      alert(xhr.responseText);
+    }
+  });
+};
+
+window.signin = function (id) {
+  var login_email = document.getElementById('login_email');
+  var login_password = document.getElementById('login_password');
+  var data = new FormData();
+  data.append('email', login_email.value);
+  data.append('password', login_password.value);
+  $.ajax({
+    url: "http://localhost:8000/api/login/",
+    type: "POST",
+    processData: false,
+    contentType: false,
+    cache: false,
+    timeout: 800000,
+    enctype: 'multipart/form-data',
+    async: false,
+    data: data,
+    success: function success(data) {
+      console.log(data.api_token);
+      localStorage.setItem('api_token', data.api_token); // window.location.href = '/';
+    },
+    error: function error(xhr, ajaxOptions, thrownError) {
+      //Add these parameters to display the required response
+      alert(xhr.status);
+      alert(xhr.responseText);
+    }
+  });
+};
+
 var data = {
   q: '',
   col: '',
@@ -2291,7 +2352,7 @@ window.filtration = function (event, type) {
 
 function fetch_data(data) {
   $.ajax({
-    url: "http://localhost:8000/api/filtration?q=".concat(data.q, "&col=").concat(data.col, "&order=").concat(data.order),
+    url: "http://localhost:8000/api/filtration?q=".concat(data.q, "&col=").concat(data.col, "&order=").concat(data.order, "+\"?token=\"+url_token"),
     type: "GET",
     dataType: 'json',
     processData: false,
@@ -30679,7 +30740,7 @@ process.umask = function() { return 0; };
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"axios@^0.21","name":"axios","escapedName":"axios","rawSpec":"^0.21","saveSpec":null,"fetchSpec":"^0.21"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_shasum":"c67b90dc0568e5c1cf2b0b858c43ba28e2eda575","_spec":"axios@^0.21","_where":"/Users/zhanerke/Documents/Eska projects/merketplace","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundleDependencies":false,"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"deprecated":false,"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","/Users/cic-c02cx11gjv3n/Documents/GitHub/merketplace"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"/Users/cic-c02cx11gjv3n/Documents/GitHub/merketplace","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 

@@ -2,11 +2,18 @@ require('./bootstrap');
 window.$ = require('jquery');
 
 
+let url_token =localStorage.getItem('api_token'); 
+
 
 window.increment = function(id){
+
     
+   
+    //http://localhost:8000/api/product/incrementCount/"+id+"?token=fa62dd02cc249c934cedb97a43141490b1ecc3b292a3314555f06f74dce5f754"
+
     $.ajax({
-        url: "http://localhost:8000/api/product/incrementCount/"+id,
+
+        url: "http://localhost:8000/api/product/incrementCount/"+id+"?token="+url_token,
         type: "PUT",
         dataType: 'json',
         processData: false,
@@ -28,7 +35,7 @@ window.increment = function(id){
 window.like = function(id){
     
     $.ajax({
-        url: "http://localhost:8000/api/product/incrementLike/"+id,
+        url: "http://localhost:8000/api/product/incrementLike/"+id+"?token="+url_token,
         type: "PUT",
         dataType: 'json',
         processData: false,
@@ -49,7 +56,7 @@ window.like = function(id){
 window.dislike = function(id){
     
     $.ajax({
-        url: "http://localhost:8000/api/product/decrementDisLike/"+id,
+        url: "http://localhost:8000/api/product/decrementDisLike/"+id+"?token="+url_token,
         type: "PUT",
         dataType: 'json',
         processData: false,
@@ -70,7 +77,7 @@ window.dislike = function(id){
 window.delete_product = function(id){
     
     $.ajax({
-        url: "http://localhost:8000/api/product/"+id,
+        url: "http://localhost:8000/api/product/"+id+"?token="+url_token,
         type: "DELETE",
         dataType: 'json',
         processData: false,
@@ -105,7 +112,7 @@ window.update = function(id){
         dislike: dislike_cell.value
     }
     $.ajax({
-        url: "http://localhost:8000/api/product/"+id,
+        url: "http://localhost:8000/api/product/"+id+"?token="+url_token,
         type: "PUT",
         dataType: 'json',
         processData: false,
@@ -191,6 +198,69 @@ window.create = function(id){
     });
 }
 
+window.registration = function(id){
+    let reg_name = document.getElementById('reg_name');
+    let reg_email = document.getElementById('reg_email');
+    let reg_password = document.getElementById('reg_password');
+
+    let data = new FormData();
+    data.append('name', reg_name.value);
+    data.append('email', reg_email.value);
+    data.append('password', reg_password.value);
+   
+    $.ajax({
+        url: "http://localhost:8000/api/registration/",
+        type: "POST",
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 800000,
+        enctype: 'multipart/form-data',
+        async: false,
+        data,
+        success: function (data) {
+            console.log(data.name);
+            localStorage.setItem('api_token', data.api_token);
+            window.location.href = '/';
+           
+        },
+        error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
+window.signin = function(id){
+    let login_email = document.getElementById('login_email');
+    let login_password = document.getElementById('login_password');
+
+    let data = new FormData();
+    data.append('email', login_email.value);
+    data.append('password', login_password.value);
+   
+
+    $.ajax({
+        url: "http://localhost:8000/api/login/",
+        type: "POST",
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 800000,
+        enctype: 'multipart/form-data',
+        async: false,
+        data,
+        success: function (data) {
+            console.log(data.api_token);
+            localStorage.setItem('api_token',data.api_token);
+            // window.location.href = '/';
+           
+        },
+        error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
 
 let data = {
     q : '',
@@ -212,7 +282,7 @@ window.filtration = function (event, type) {
 
 function fetch_data(data){
     $.ajax({
-        url: `http://localhost:8000/api/filtration?q=${data.q}&col=${data.col}&order=${data.order}`,
+        url: `http://localhost:8000/api/filtration?q=${data.q}&col=${data.col}&order=${data.order}+"?token="+url_token`,
         type: "GET",
         dataType: 'json',
         processData: false,

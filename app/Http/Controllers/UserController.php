@@ -41,6 +41,7 @@ class UserController extends Controller
             'password' => Hash::make($validated['password']),
             'api_token' =>  hash('sha256', $token),
         ]);
+
     }
 
     /**

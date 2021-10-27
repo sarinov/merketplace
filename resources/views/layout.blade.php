@@ -31,7 +31,8 @@
 
             <div class="btn-group">
                 <button type="button" class="btn "><a href="/">HOME</a></button>
-                <button type="button" class="btn "><a href="/signIn/">SIGN IN</a></button>
+                <button type="button" class="btn "><a href="/registration/">REG</a></button>
+                <button type="button" class="btn "><a href="/signin/">SIGN IN</a></button>
             </div>
 
         </div>

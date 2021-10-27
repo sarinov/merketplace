@@ -40,7 +40,12 @@ class ProductController extends Controller
         return  view('single', ['products' => $product]);        
         
     }
-    public function signIn()
+    public function registration()
+    {
+        return  view('registration');        
+        
+    }
+    public function signin()
     {
         return  view('signin');        
         
