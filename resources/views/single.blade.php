@@ -21,8 +21,7 @@
 
                     <div class=" d-flex">
 
-                        <p class="price" style="margin-right: 20px;"> price: <span id="price_{{ $products->id }}">
-                                {{ $products->price }}</span> </p>
+                        <p class="price" style="margin-right: 20px;"> price:<span id="price_{{ $products->id }}">{{ $products->price }}</span></p>
                         <p class="count" style="margin-right: 20px;">count: <span
                                 id="count_{{ $products->id }}">{{ $products->count }}</span> </p>
 

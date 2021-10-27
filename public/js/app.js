@@ -2352,7 +2352,7 @@ window.filtration = function (event, type) {
 
 function fetch_data(data) {
   $.ajax({
-    url: "http://localhost:8000/api/filtration?q=".concat(data.q, "&col=").concat(data.col, "&order=").concat(data.order, "+\"?token=\"+url_token"),
+    url: "http://localhost:8000/api/filtration?q=".concat(data.q, "&col=").concat(data.col, "&order=").concat(data.order, "?token=") + url_token,
     type: "GET",
     dataType: 'json',
     processData: false,
