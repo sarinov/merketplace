@@ -59,6 +59,14 @@
 
         </div>
     </div>
+    <div class="container">
+        @foreach($products->comments as $comment)
+            <div>
+                <h1>{{$comment->user->name}}</h1>
+                <h2>{{$comment->content}}</h2>
+            </div>
+        @endforeach
+    </div>
 <!-- end container -->
 
 

@@ -22,7 +22,6 @@ class ProductController extends Controller
         foreach($exist_categories as $ex_cat){
             $category_tamplate[$ex_cat->category] = $ex_cat->count;
         }
-        $path = storage_path('0gbmLRjbc3y7m8StFj8vPg0adxmlbE7ffVWsEOpC.jpg');
         $products = Product::get();
         // foreach ($products as $prod) {
         //     $url = storage_path($prod->img);
@@ -32,14 +31,22 @@ class ProductController extends Controller
         return  view('welcome', ['products' => $products, 'categories' => $category_tamplate]);        
         
     }
-        public function single($id)
+    public function single($id)
     {
-         $product = Product::find($id);
-
         
+        $product = Product::find($id);
         return  view('single', ['products' => $product]);        
         
     }
+
+    public function single1($id)
+    {
+        $product = Product::with('Comments.User')->get();
+        // $product = Product::find($id);
+        return  ['products' => $product];        
+        
+    }
+
     public function registration()
     {
         return  view('registration');        

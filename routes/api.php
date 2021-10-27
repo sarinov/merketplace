@@ -28,6 +28,10 @@ Route::middleware('auth_token')->put('/product/incrementCount/{id}', 'App\Http\C
 Route::middleware('auth_token')->put('/product/incrementLike/{id}', 'App\Http\Controllers\ProductController@incrementLike');
 Route::middleware('auth_token')->put('/product/decrementDisLike/{id}', 'App\Http\Controllers\ProductController@decrementDisLike');
 Route::middleware('auth_token')->delete('/product/{id}', 'App\Http\Controllers\ProductController@delete');
+Route::get('/single1/{id}', 'App\Http\Controllers\ProductController@single1');
 Route::middleware('auth_token')->get('/filtration', 'App\Http\Controllers\ProductController@filtration');
+Route::middleware('auth_token')->post('/comment', 'App\Http\Controllers\CommentsController@store');
+Route::middleware('auth_token')->post('/cart', 'App\Http\Controllers\CartController@store');
+Route::middleware('auth_token')->get('/cart', 'App\Http\Controllers\CartController@show');
 
 

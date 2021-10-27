@@ -2,7 +2,7 @@ require('./bootstrap');
 window.$ = require('jquery');
 
 
-let url_token =localStorage.getItem('api_token'); 
+let url_token = localStorage.getItem('api_token'); 
 
 
 window.increment = function(id){
@@ -173,7 +173,7 @@ window.create = function(id){
     data.append('like', like_create.value);
     data.append('dislike', dislike_create.value);
     data.append('category', category_create.value);
-    data.append('token', '6807bd03d8fb9e067c0316fd72b2218c3bca79d5f0491cf1ef344a9bd75e8eb5');
+    data.append('token', url_token);
     
 
     $.ajax({
@@ -250,9 +250,9 @@ window.signin = function(id){
         async: false,
         data,
         success: function (data) {
-            console.log(data.api_token);
+            console.log(data);
             localStorage.setItem('api_token',data.api_token);
-            // window.location.href = '/';
+            window.location.href = '/';
            
         },
         error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
