@@ -46,6 +46,14 @@
 
             </div>
 
+            <div class="addProduct">
+
+                <button type="button" class="btn btn-primary mb-5" onclick="showcart()">
+                   Show cart
+                </button>
+
+            </div>
+
         </div>
         <!-- end sidebar -->
 

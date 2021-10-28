@@ -43,6 +43,7 @@
                             class="btn border">Dislike</button>
                         <button onclick="increment({{ $products->id }})" type="button" class="btn border">Counte
                             +</button>
+                            <button onclick="addtocart({{ $products->id }})" type="button" class="btn border">Add to cart</button>
                         <!--  <button type="button" class="btn ">Update</button>
                     <button type="button" class="btn ">Delete</button>
                     <button type="button" class="btn ">Increment</button>

@@ -33,5 +33,7 @@ Route::middleware('auth_token')->get('/filtration', 'App\Http\Controllers\Produc
 Route::middleware('auth_token')->post('/comment', 'App\Http\Controllers\CommentsController@store');
 Route::middleware('auth_token')->post('/cart', 'App\Http\Controllers\CartController@store');
 Route::middleware('auth_token')->get('/cart', 'App\Http\Controllers\CartController@show');
+Route::middleware('auth_token')->post('/favorite', 'App\Http\Controllers\FavoriteController@store');
+Route::middleware('auth_token')->get('/favorite', 'App\Http\Controllers\FavoriteController@show');
 
 

@@ -4,10 +4,62 @@ window.$ = require('jquery');
 
 let url_token = localStorage.getItem('api_token'); 
 
+window.showcart = function(id){
 
+    // console.log(id);
+
+    // let datacart = {
+    //     "token":url_token, 
+    //     "product_id":id
+    // }
+
+    $.ajax({
+        url: "http://localhost:8000/api/cart/?token="+url_token,
+        type: "GET",
+        dataType: 'json',
+        processData: false,
+        contentType: 'application/json',
+        CrossDomain:true,
+        async: false,
+        // data:  JSON.stringify(datacart),
+        success: function (data) {
+           console.log(data)
+        },
+        error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
+
+window.addtocart = function(id){
+
+    console.log(id);
+
+    let datacart = {
+        "token":url_token, 
+        "product_id":id
+    }
+
+    $.ajax({
+        url: "http://localhost:8000/api/cart/",
+        type: "POST",
+        dataType: 'json',
+        processData: false,
+        contentType: 'application/json',
+        CrossDomain:true,
+        async: false,
+        data:  JSON.stringify(datacart),
+        success: function (data) {
+           console.log(data)
+        },
+        error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
 window.increment = function(id){
-
-    
    
     //http://localhost:8000/api/product/incrementCount/"+id+"?token=fa62dd02cc249c934cedb97a43141490b1ecc3b292a3314555f06f74dce5f754"
 
